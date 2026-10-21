@@ -1,43 +1,70 @@
-import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Button } from 'react-native/types_generated/index';
-import { TextInput } from 'react-native/types_generated/index';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View, TextInput, Button, Pressable } from "react-native";
+import { useState } from "react";
 
 export default function App() {
   const [inputText, setInputText] = useState("");
   const [taskList, setTaskList] = useState([]);
-
-
   function inputTextHandler(text) {
-    setInputText = text;
+    setInputText(text);
   }
+
   function addHandler() {
-    setTaskList([...taskList, text]);
+    setTaskList([...taskList, inputText]);
   }
+
   return (
-    <>
     <View style={styles.container}>
-      <TextInput onChangeText={inputTextHandler}
-        style={styles.input}
-        placeholder='Zadaj úlohu ...'
-      />
-      <Button onPress={addHandler} title='ADD' />
-      <Text>Projekt PMA</Text>
+
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Zadaj úlohu...."
+          onChangeText={inputTextHandler}
+        />
+        <Button onPress={addHandler} title="ADD" />
+      </View>
+
+      <View style={styles.tasksContainer}>
+        {taskList.map((i) => (
+          <Pressable style={styles.taskItem} key={i}>
+            <Text>{i}</Text>
+          </Pressable>
+        ))}
+      </View>
+
       <StatusBar style="auto" />
     </View>
-    <View>
-
-    </View>
-    </>
   );
 }
 
 const styles = StyleSheet.create({
+  inputContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 12,
+  },
+  tasksContainer: {
+    flex: 4,
+    padding: 24,
+    borderTopWidth: 3,
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: 100,
+  },
+  input: {
+    borderColor: "#ff0000",
+    borderWidth: 3,
+    borderRadius: 8,
+    width: "80%",
+  },
+  taskItem: {
+    backgroundColor: "#30c718",
+    padding: 12,
+    margin: 8,
+    borderRadius: 6,
   },
 });
